@@ -11,10 +11,7 @@
 
 <br/>
 <div align="center">
-	<a href="https://github.com/csian98/DSCI-560-lab3">
-		<img src="./images/logo.png" alt="Logo" width="150" height="150">
-	</a>
-	<h3 align="center">DSCI-560: Laboratory Assignment 3</h3>	
+	<h3 align="center">MP & CUDA Performance Analyze</h3>	
 	<a href="mailto:csian7386@gmail.com"><img src="https://img.shields.io/badge/csian7386@gmail.com-grey?logo=Gmail"></a>
 	<a href="https://instagram/csian98"><img src="https://img.shields.io/badge/csian98-grey?logo=Instagram"></a>
 	<a href="https://discord.gg/YhghyDBgKa"><img src="https://img.shields.io/badge/Discord-grey?logo=Discord"></a>
@@ -22,18 +19,16 @@
 	<a href="https://www.linkedin.com/in/jeong-hoon-choi-086b57088"><img src="https://img.shields.io/badge/LinkedIn-grey?logo=linkedin"></a>
 	<a href="https://patreon.com/csian98"><img src="https://img.shields.io/badge/Patreon-grey?logo=Patreon"></a>
 	<p align="center">
-	University of Southern California<br/>
-    Viterbi School of Engineering
 	<br/>
 	<br/>
-	<a href="https://github.com/csian98/DSCI-560-lab3">
+	<a href="https://github.com/csian98/mp-cuda-performance-analyze">
 		<strong>Explore the docs »</strong>
 	</a>
 	<br/>
 	<br/>
-	<a href="https://github.com/csian98/DSCI-560-lab3/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+	<a href="https://github.com/csian98/mp-cuda-performance-analyze/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
 	·
-	<a href="https://github.com/csian98/DSCI-560-lab3/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+	<a href="https://github.com/csian98/mp-cuda-performance-analyze/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
 	</p>
 </div>
 
@@ -47,7 +42,7 @@
 ### Installation
 
    ```sh
-   git clone https://github.com/csian/DSCI-560-lab3.git
+   git clone https://github.com/csian/mp-cuda-performance-analyze.git
    pip3 install -r requirements.txt
    ```
 
@@ -62,11 +57,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Jeong Hoon (Sian) Choi - [@csian98](https://instagram.com/csian98) - [csian7386@gmail.com](mailto:csian7386@gmail.com)
 
-Project Link: [https://github.com/csian98/DSCI-560-lab3](https://github.com/csian98/DSCI-560-lab3)
+Project Link: [https://github.com/csian98/mp-cuda-performance-analyze](https://github.com/csian98/mp-cuda-performance-analyze)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[language-shield]: https://img.shields.io/github/languages/top/csian98/DSCI-560-lab3.svg?style=for-the-badge
+[language-shield]: https://img.shields.io/github/languages/top/csian98/mp-cuda-performance-analyze.svg?style=for-the-badge
 
 [macos-shield]: https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0
 [macos-url]: https://developer.apple.com/macos
