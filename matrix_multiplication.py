@@ -30,7 +30,7 @@ import time
 def main(*args, **kwargs):
     lib = ctypes.cdll.LoadLibrary("lib/libcuda2py.so")
 
-    lib.cuda2py.argtypes = [
+    lib.cuda_matrix_multiplication.argtypes = [
         np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags="C_CONTIGUOUS"),
         np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags="C_CONTIGUOUS"),
         np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags="C_CONTIGUOUS"),
@@ -45,7 +45,7 @@ def main(*args, **kwargs):
     c = np.zeros((n, m), dtype=np.float32)
 
     start = time.time()
-    lib.cuda2py(a.ravel(), b.ravel(), c.ravel(), n, m, k)
+    lib.cuda_matrix_multiplication(a.ravel(), b.ravel(), c.ravel(), n, m, k)
     end = time.time()
 
     print(f"Python call to CUDA library cost time: {end-start:.4f}")

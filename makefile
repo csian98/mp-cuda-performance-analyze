@@ -26,7 +26,10 @@ elf/optimize_cuda.elf: src/timer.cpp src/optimize_cuda.cu
 elf/cuBLAS.elf: src/timer.cpp src/cuBLAS.cu
 	$(NVCC) $(NVCCFLAGS) $^ -o $@
 
+elf/convolution.elf: src/timer.cpp src/convolution.cu
+	$(NVCC) $(NVCCFLAGS) $^ -o $@
+
 lib/libcuda2py.so: src/cuda2py.cu
 	$(NVCC) $(SHD_NVCCFLAGS) $(SHD_LDFLAGS) $^ -o $@
 
-all: elf/single_thread.elf elf/multi_thread.elf elf/naive_cuda.elf elf/optimize_cuda.elf elf/cuBLAS.elf lib/libcuda2py.so
+all: elf/single_thread.elf elf/multi_thread.elf elf/naive_cuda.elf elf/optimize_cuda.elf elf/cuBLAS.elf elf/convolution.elf lib/libcuda2py.so

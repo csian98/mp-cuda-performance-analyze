@@ -3,7 +3,7 @@
  * @brief		single thread, multi thread and SIMT GPU
  * @author		Jeong Hoon (Sian) Choi
  * @version 	1.0.0
- * @date		2026-01-27
+ * @date		2026-01-29
  */
 
 /* Copyright (C)
@@ -33,7 +33,8 @@
 static const int block_size = 32;
 
 template <typename T>
-__global__ void optimize_cuda(const T* a, const T* b, T* c, const int n, const int m, const int k) {
+__global__ void matrix_multiplication(const T* a, const T* b, T* c,
+									  const int n, const int m, const int k) {
 	int col = blockDim.x * blockIdx.x + threadIdx.x;
 	int row = blockDim.y * blockIdx.y + threadIdx.y;
 	int local_col = threadIdx.x;
@@ -70,10 +71,31 @@ __global__ void optimize_cuda(const T* a, const T* b, T* c, const int n, const i
 	c[m * row + col] = value;
 }
 
+template <typename T>
+__global__ void naive_convolution(const T* a, const T* b, T* c,
+								  const int n, const int m, const int k) {
+	int col = blockDim.x * blockIdx.x + threadIdx.x;
+	int row = blockDim.y * blockIdx.y + threadIdx.y;
+
+	if (row < k && col < k) {
+		T value = 0;
+		for (int ki = 0; ki < m; ++ki) {
+			for (int kj = 0; kj < m; ++kj) {
+				int ir = row + ki - (m / 2);
+				int ic = col + kj - (m / 2);
+				if (ir >= 0 && ir < n && ic >= 0 && ic < n)
+					value += a[n * ir + ic] * b[m * ki + kj];
+			}
+		}
+		c[k * row + col] = value;
+	}
+}
+
 #ifdef __cplusplus
 extern "C"  {
 #endif
-void cuda2py(const float* a, float* b, float* c, const int n, const int m, const int k) {
+void cuda_matrix_multiplication(const float* a, float* b, float* c,
+								const int n, const int m, const int k) {
 	dim3 grid_dim(std::ceil(static_cast<float>(m) / block_size),
 				  std::ceil(static_cast<float>(n) / block_size));
 	dim3 block_dim(block_size, block_size);
@@ -90,9 +112,36 @@ void cuda2py(const float* a, float* b, float* c, const int n, const int m, const
 	cudaMemcpy(d_b, b, sizeof(float) * k * m, cudaMemcpyHostToDevice);
 	cudaMemset(d_c, 0, sizeof(float) * n * m);
 
-	optimize_cuda<float><<<grid_dim, block_dim>>>(d_a, d_b, d_c, n, m, k);
+    matrix_multiplication<float><<<grid_dim, block_dim>>>(d_a, d_b, d_c, n, m, k);
 
 	cudaMemcpy(c, d_c, sizeof(float) * n * m, cudaMemcpyDeviceToHost);
+
+	cudaFree(d_a);
+	cudaFree(d_b);
+	cudaFree(d_c);
+}
+
+void cuda_convolution(const int* a, const int* b, int* c,
+					  const int n, const int m, const int k) {
+	dim3 grid_dim(std::ceil(static_cast<float>(k) / block_size),
+				  std::ceil(static_cast<float>(k) / block_size));
+	dim3 block_dim(block_size, block_size);
+
+	int* d_a;
+	int* d_b;
+	int* d_c;
+
+	cudaMalloc(&d_a, sizeof(int) * n * n);
+	cudaMalloc(&d_b, sizeof(int) * m * m);
+	cudaMalloc(&d_c, sizeof(int) * k * k);
+
+	cudaMemcpy(d_a, a, sizeof(int) * n * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_b, b, sizeof(int) * m * m, cudaMemcpyHostToDevice);
+	cudaMemset(d_c, 0, sizeof(int) * k * k);
+
+    naive_convolution<int><<<grid_dim, block_dim>>>(d_a, d_b, d_c, n, m, k);
+
+	cudaMemcpy(c, d_c, sizeof(int) * k * k, cudaMemcpyDeviceToHost);
 
 	cudaFree(d_a);
 	cudaFree(d_b);

@@ -7,7 +7,7 @@
  */
 
 /* Copyright (C)
- * 2026 - Jeong Hoon (Sian) Choi
+ * 2024 - Jeong Hoon (Sian) Choi
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -71,7 +71,7 @@ template <typename T>
 void single_thread(const T* a, const T* b, T* c, const int n, const int m, const int k) {
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
-			T value = 0;
+			double value = 0;
 			for (int l = 0; l < k; ++l) {
 				value += a[i * k + l] * b[l * m + j];
 			}
@@ -86,7 +86,7 @@ void multi_thread(const T* a, const T* b, T* c, const int n, const int m, const 
 	const int tasks = std::ceil(static_cast<float>(m) / thread_num);
 	for (int i = 0; i < n; ++i) {
 		for (int j = thread_index * tasks; j < (thread_index + 1) * tasks; ++j) {
-			T value = 0;
+			double value = 0;
 			for (int l = 0; l < k; ++l) {
 				if (j < m)
 					value += a[i * k + l] * b[l * m + j];
@@ -108,7 +108,7 @@ __global__ void cuda_kernel(const T* a, const T* b, T* c, const int n, const int
 	__shared__ T partial_a[block_size][block_size];
 	__shared__ T partial_b[block_size][block_size];
 
-	T value = 0;
+	double value = 0;
 	
 	for (int blk = 0; blk < std::ceil(static_cast<float>(k) / block_size); ++blk) {
 		int stride = blk * block_size;
