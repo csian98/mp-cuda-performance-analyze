@@ -43,8 +43,26 @@
 
    ```sh
    git clone https://github.com/csian/mp-cuda-performance-analyze.git
-   pip3 install -r requirements.txt
+   cd mp-cuda-performance-analyze/
+   make all
    ```
+
+### Execution
+	```
+	elf/single_thread 2048
+	elf/multi_thread 2048
+	elf/naive_cuda.elf 2048
+	elf/optimize_cuda.elf 2048
+	elf/cuBLAS 2048
+	
+	python3 matrix_multiplication.py
+	python3 convolution.py
+	```
+
+### Dynamic Library
+	```
+	readelf -s lib/libcuda2py.so | grep -i "cuda_"
+	```
 
 ## 🔐 License
 
